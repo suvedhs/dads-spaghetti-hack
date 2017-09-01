@@ -1,0 +1,12 @@
+.button-green {
+	font-size: 18px;
+    width: 150px;
+    height: 150px;
+}
+
+#green {
+    width: 150px;
+    height: 150px;
+    background-image: url(http://media.gettyimages.com/videos/glowing-sparkle-dots-background-loop-vibrant-green-video-id161672503?s=640x640);
+    background-repeat: no-repeat;
+}	

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>usman sux</title>
+		<link rel="stylesheet" href="css/main1.css">
+	</head>
+	<body>
+	
+	
+	<h1> </h1>
+		<button class="button button-primary button-pret" type="button">
+			<span style="font-size:50px;">ABCD</span>
+			</br>
+			<span style="font-size:10px;">i like big butts and i cannot lie</span>
+		</button>
+		<button id="rock" onClick="choose(1)">Rock</button>
+	</body>
+</html>

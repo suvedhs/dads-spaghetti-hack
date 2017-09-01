@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            var allQuestions = [];
+            var v=0;
+            var question0 = { ques: 'What do you say at the end of a game on the internet?', rightanswer: 'gg well played', wrong1: 'you suck!!', wrong2: 'I am better than everyone', wrong3: 'I hate this game'};
+            var question1 = { ques: 'Someone on the internet is saying mean things. What shouldn\'t you do?', rightanswer: 'ignore', wrong1: 'say mean things back', wrong2: 'tell your parents', wrong3: 'make them calm down'};
+            var question2 = { ques: 'How many potatoes does it take to grow a potato tree3', rightanswer: 'maria', wrong1: 'tomato', wrong2: 'potato', wrong3: 'patata'};
+            var question3 = { ques: 'How many potatoes does it take to grow a potato tree4', rightanswer: 'suvedh', wrong1: 'tomato', wrong2: 'potato', wrong3: 'patata'};
+            var question4 = { ques: 'How many potatoes does it take to grow a potato tree5', rightanswer: 'usman', wrong1: 'tomato', wrong2: 'potato', wrong3: 'patata'};
+
+
+            allQuestions.push(question0);
+            allQuestions.push(question1);
+            allQuestions.push(question2);
+            allQuestions.push(question3);
+            allQuestions.push(question4);
+            
+            function printQues(i) {
+               document.write(allQuestions[i].ques);
+            }
+            function printRight(i) {
+                document.write(allQuestions[i].rightanswer);
+            }
+            function printW1(i) {
+                document.write(allQuestions[i].wrong1);
+            }   
+            function printW2(i) {
+                document.write(allQuestions[i].wrong2);
+            }
+            function printW3(i) {
+                document.write(allQuestions[i].wrong3);
+            }
+            function getRand(){
+                var i = Math.floor(Math.random()*allQuestions.length );
+                return i;
+            }
+            function determineRand(){
+                v = getRand();
+            }
+            function submitted() {
+                if(document.getElementById('rightanswer').checked) {
+                    $("loopy").hide();
+                    $("ifright").show();
+                    allQuestions.pop(v);
+                    if(allQuestions.length==0) {
+                        finished();
+                    }
+                }
+                else {
+                    $("loopy").hide();
+                    $("ifwrong").show();
+                }            
+            }
+            $(document).ready(function() {
+                $("ifright").hide();
+                $("ifwrong").hide();
+            });
+            function transition() {
+                
+            }
+            function finished() {
+                
+            }
+        </script>
+    </head>
+
+
+    <body>
+        <loopy>
+            <script type="text/javascript">
+                determineRand();
+            </script>
+            <script>
+                printQues(v);
+            </script>
+            <br>
+            <input type="radio" name="question answer" id="rightanswer"> 
+            <script>
+            printRight(v);
+            </script>
+            <br>
+            <input type="radio" name="question answer" id="wrong1"> 
+            <script>
+            printW1(v);
+            </script>
+            <br>
+            <input type="radio" name="question answer" id="wrong2"> 
+            <script>
+            printW2(v);
+            </script>
+            <br>
+            <input type="radio" name="question answer" id="wrong3">
+            <script>
+            printW3(v);
+
+            </script>
+            <button onclick="submitted()"> Submit </button>
+            <br>
+        </loopy>
+
+            <ifright>
+                <button onclick="transition()"> Congrats! Play game. </button>
+            </ifright>
+            <ifwrong>
+                <button onclick="transition()"> Wrong answer. </button>
+            </ifwrong>   
+        
+    </body>
+</html>

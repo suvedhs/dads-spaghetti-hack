@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<style>
+#image0{
+position:absolute;
+}
+#image1{
+position:absolute;
+}
+
+canvas {
+    border:1px solid #d3d3d3;
+    background-color: #f1f1f1;
+}
+</style>
+
+<html>
+
+
+<head>
+    
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script type="text/javascript">
+            var allQuestions = [];
+            var v=0;
+            var question0 = { ques: 'What do you say at the end of a game on the internet?', rightanswer: 'gg well played', wrong1: 'you suck!!', wrong2: 'I am better than everyone', wrong3: 'I hate this game'};
+            var question1 = { ques: 'Which of the following is NOT a good way to handle cyberbullying?', rightanswer: 'Get into a fight with the person in school', wrong1: 'ignore and block them', wrong2: 'tell your parents or a teacher', wrong3: 'save the messages as evidence'};
+            var question2 = { ques: 'Kids who are cyberbullied are more likely to:', rightanswer: 'All of the below', wrong1: 'Get bad grades', wrong2: 'Skip school', wrong3: 'Have health problems'};
+            var question3 = { ques: 'True or false: cyberbullies bully because they are insecure or may have been bullied themselves', rightanswer: 'sometimes', wrong1: 'true', wrong2: 'false', wrong3: 'idk'};
+            var question4 = { ques: 'What challenge does our team want to win?', rightanswer: '#hackHarrassment', wrong1: 'not that', wrong2: 'something random', wrong3: 'the one about shoes'};
+
+            allQuestions.push(question0);
+            allQuestions.push(question1);
+            allQuestions.push(question2);
+            allQuestions.push(question3);
+            allQuestions.push(question4);
+            
+            function printQues(i) {
+               document.write(allQuestions[i].ques);
+            }
+            function popo(i) {
+                allQuestions.pop(i);
+            }
+            function printRight(i) {
+                document.write(allQuestions[i].rightanswer);
+            }
+            function printW1(i) {
+                document.write(allQuestions[i].wrong1);
+            }   
+            function printW2(i) {
+                document.write(allQuestions[i].wrong2);
+            }
+            function printW3(i) {
+                document.write(allQuestions[i].wrong3);
+            }
+            function getRand(){
+                var i = Math.floor(Math.random()*allQuestions.length );
+                return i;
+            }
+            function determineRand(){
+                v = getRand();
+            }
+            function submitted() {
+                $("loopy").hide();
+                $("loopy1").hide();
+                $("loopy2").hide();
+                $("loopy3").hide();
+                $("loopy4").hide();
+                if(document.getElementById('rightanswer').checked) {
+                    allQuestions.pop(v);
+                    if(allQuestions.length==0) {
+                        finished();
+                    }
+                    if(allQuestions.length==4){
+                        $("ifright").show();
+                        $("loopy1").show();
+                    }
+                    if(allQuestions.length==3){
+                        $("ifright1").show();
+                        $("loopy2").show();
+
+                    }
+                    if(allQuestions.length==2){
+                        $("ifright2").show();
+                        $("loopy3").show();
+
+                    }
+                    if(allQuestions.length==1){
+                        $("ifright3").show();
+                        $("loopy4").show();
+                    }
+                }
+                else {
+                    $("ifwrong").show();
+                }            
+            }
+            function transition() {
+                $("icri").show();
+                $("sta").show();
+                $("ifright").hide();
+                $("ifwrong").hide();
+                $("game").hide();
+            }
+            function finished() {
+                
+            }
+
+    $(document).ready(function() {
+        $("restart").hide();
+        $("icri").hide();
+        $("ifright").hide();
+        $("ifwrong").hide();
+        $("tired").hide();
+
+        $("loopy1").hide();
+        $("loopy2").hide();
+        $("loopy3").hide();
+        $("loopy4").hide();
+    });
+    $(document).mousemove(function(e){
+            $("#image0").css({left:e.pageX+1, top:e.pageY+1});
+            $("#image1").stop().animate({left:e.pageX+21, top:e.pageY-24});
+    });
+    document.body.style.cursor = 'none';
+
+
+</script>
+
+<script>
+var myGamePiece;
+var myObstacles = [];
+var myScore;
+var speed;
+
+
+function startGame() {
+    myGamePiece = new component(30, 30, "red", 10, 120);
+    myGamePiece.gravity = 0.05;
+    myScore = new component("30px", "Consolas", "black", 280, 40, "text");
+    myGameArea.start();
+    finishLine = new component(10,200,"blue",1000,0);
+}
+
+var myGameArea = {
+    canvas : document.createElement("canvas"),
+    start : function() {
+        this.canvas.width = 480;
+        this.canvas.height = 270;
+        this.context = this.canvas.getContext("2d");
+        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.frameNo = 0;
+        this.interval = setInterval(updateGameArea, 20);
+        },
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    },
+    end : function() {
+        this.canvas.width = 0;
+        this.canvas.height = 0;
+    }
+}
+
+function component(width, height, color, x, y, type) {
+    this.type = type;
+    this.score = 0;
+    this.width = width;
+    this.height = height;
+    this.speedX = 0;
+    this.speedY = 0;    
+    this.x = x;
+    this.y = y;
+    this.gravity = 0;
+    this.gravitySpeed = 0;
+    this.update = function() {
+        ctx = myGameArea.context;
+        if (this.type == "text") {
+            ctx.font = this.width + " " + this.height;
+            ctx.fillStyle = color;
+            ctx.fillText(this.text, this.x, this.y);
+        } else {
+            ctx.fillStyle = color;
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+    }
+    this.newPos = function() {
+        this.gravitySpeed += this.gravity;
+        this.x += this.speedX;
+        this.y += this.speedY + this.gravitySpeed;
+        this.hitBottom();
+    }
+    this.hitBottom = function() {
+        var rockbottom = myGameArea.canvas.height - this.height;
+        if (this.y > rockbottom) {
+            this.y = rockbottom;
+            this.gravitySpeed = 0;
+        }
+    }
+    this.crashWith = function(otherobj) {
+
+        var myleft = this.x;
+        var myright = this.x + (this.width);
+        var mytop = this.y;
+        var mybottom = this.y + (this.height);
+        var otherleft = otherobj.x;
+        var otherright = otherobj.x + (otherobj.width);
+        var othertop = otherobj.y;
+        var otherbottom = otherobj.y + (otherobj.height);
+        var crash = true;
+        if ((mybottom < othertop) || (mytop > otherbottom) || (myright < otherleft) || (myleft > otherright)) {
+            crash = false;
+        }
+        return crash;
+    }
+}
+function hideStart() {
+        $("sta").hide();
+        $("game").show();
+}
+
+
+function restartGame()
+{
+    myGameArea.frameNo = 0; 
+    myObstacles = [];
+    var oldcanv = document.getElementById('canvas');
+    document.removeChild(oldcanv)
+
+    var canv = document.createElement('canvas');
+    canv.id = 'canvas';
+    document.body.appendChild(canv);
+
+    myScore = "";
+    startGame();
+    
+}
+
+function hideRestart()
+{
+    $("restart").hide();
+    $("game").show();
+}
+
+function updateGameArea() {
+    var x, height, gap, minHeight, maxHeight, minGap, maxGap;
+    for (i = 0; i < myObstacles.length; i += 1) {
+        if (myGamePiece.crashWith(myObstacles[i])) {
+            youLose();
+            return;
+        }
+        if (myGameArea.frameNo == 200 )  {
+            youWin();
+            return;
+        }
+    } 
+    
+    myGameArea.clear();
+    myGameArea.frameNo += 1;
+    if (myGameArea.frameNo == 1 || everyinterval(150)) {
+        x = myGameArea.canvas.width;
+        minHeight = 20;
+        maxHeight = 200;
+        height = Math.floor(Math.random()*(maxHeight-minHeight+1)+minHeight);
+        minGap = 50;
+        maxGap = 200;
+        gap = Math.floor(Math.random()*(maxGap-minGap+1)+minGap);
+        myObstacles.push(new component(10, height, "green", x, 0));
+        myObstacles.push(new component(10, x - height - gap, "green", x, height + gap));
+    }
+    for (i = 0; i < myObstacles.length; i += 1) {
+        myObstacles[i].x += -1;
+        myObstacles[i].update();
+    }
+    myScore.text="SCORE: " + myGameArea.frameNo;
+    myScore.update();
+    myGamePiece.newPos();
+    myGamePiece.update();
+    finishLine.update();
+}
+
+function everyinterval(n) {
+    if ((myGameArea.frameNo / n) % 1 == 0) {return true;}
+    return false;
+}
+
+function accelerate(n) {
+    myGamePiece.gravity = n;
+}
+function youLose() {
+    $("game").hide();
+    $("restart").show();    
+   
+}
+function youWin() {
+    $("canvas").hide();
+    $("game").hide();
+    $("tired").show();
+}
+</script>
+
+
+
+</head>
+<body>
+    <tired>
+        <form action="third.html">
+            <input type="submit" value="Go back to questions" />
+        </form>
+    </tired>
+    
+<img id="image0" src="http://images.clipartbro.com/19/download-pasta-clip-art-free-clipart-of-spaghetti-amp-amp-more-19680.gif" width="50" height="auto"/>
+<img id="image1" src="http://www.clipartkid.com/images/225/12-spaghetti-dinner-fundraiser-flyer-template-free-cliparts-that-you-IFwdJY-clipart.gif" width="35" height="auto"/>
+    <loopy>
+            <script type="text/javascript">
+                determineRand();
+            </script>
+            <script>
+                printQues(v);
+            </script>
+            <br>
+            <input type="radio" name="question answer" id="rightanswer"> 
+            <script>
+            printRight(v);
+            </script>
+            <br>
+            <input type="radio" name="question answer" id="wrong1"> 
+            <script>
+            printW1(v);
+            </script>
+            <br>
+            <input type="radio" name="question answer" id="wrong2"> 
+            <script>
+            printW2(v);
+            </script>
+            <br>
+            <input type="radio" name="question answer" id="wrong3">
+            <script>
+            printW3(v);
+
+            </script>
+            <br>
+            <button onclick="submitted()"> Submit </button>
+            <br>
+        </loopy>
+            <ifwrong>
+                <button onclick="transition()"> Wrong answer. </button>
+            </ifwrong>
+            <ifright>
+                <script>
+                popo(v);
+                </script>
+                <loopy1>
+                    <script type="text/javascript">
+                        determineRand();
+                    </script>
+                    <script>
+                        printQues(v);
+                    </script>
+                    <br>
+                    <input type="radio" name="question answer" id="rightanswer"> 
+                    <script>
+                    printRight(v);
+                    </script>
+                    <br>
+                    <input type="radio" name="question answer" id="wrong1"> 
+                    <script>
+                    printW1(v);
+                    </script>
+                    <br>
+                    <input type="radio" name="question answer" id="wrong2"> 
+                    <script>
+                    printW2(v);
+                    </script>
+                    <br>
+                    <input type="radio" name="question answer" id="wrong3">
+                    <script>
+                    printW3(v);
+
+                    </script>
+                    <br>
+                    <button onclick="submitted()"> Submit </button>
+                    <br>
+                </loopy1>
+            </ifright>
+            <ifright1>
+                <script>
+                popo(v);
+                </script>
+                <loopy2>
+                    <script type="text/javascript">
+                        determineRand();
+                    </script>
+                    <script>
+                        printQues(v);
+                    </script>
+                    <br>
+                    <input type="radio" name="question answer" id="rightanswer"> 
+                    <script>
+                    printRight(v);
+                    </script>
+                    <br>
+                    <input type="radio" name="question answer" id="wrong1"> 
+                    <script>
+                    printW1(v);
+                    </script>
+                    <br>
+                    <input type="radio" name="question answer" id="wrong2"> 
+                    <script>
+                    printW2(v);
+                    </script>
+                    <br>
+                    <input type="radio" name="question answer" id="wrong3">
+                    <script>
+                    printW3(v);
+
+                    </script>
+                    <br>
+                    <button onclick="submitted()"> Submit </button>
+                    <br>
+                </loopy2>
+            </ifright1>
+
+            <ifright2>
+                <script>
+                popo(v);
+                </script>
+                <loopy3>
+                    <script type="text/javascript">
+                        determineRand();
+                    </script>
+                    <script>
+                        printQues(v);
+                    </script>
+                    <br>
+                    <input type="radio" name="question answer" id="rightanswer"> 
+                    <script>
+                    printRight(v);
+                    </script>
+                    <br>
+                    <input type="radio" name="question answer" id="wrong1"> 
+                    <script>
+                    printW1(v);
+                    </script>
+                    <br>
+                    <input type="radio" name="question answer" id="wrong2"> 
+                    <script>
+                    printW2(v);
+                    </script>
+                    <br>
+                    <input type="radio" name="question answer" id="wrong3">
+                    <script>
+                    printW3(v);
+
+                    </script>
+                    <br>
+                    <button onclick="submitted()"> Submit </button>
+                    <br>
+                </loopy3>
+            </ifright2>
+            <ifright3>
+                <script>
+                popo(v);
+                </script>
+                <loopy4>
+                    <script type="text/javascript">
+                        determineRand();
+                    </script>
+                    <script>
+                        printQues(v);
+                    </script>
+                    <br>
+                    <input type="radio" name="question answer" id="rightanswer"> 
+                    <script>
+                    printRight(v);
+                    </script>
+                    <br>
+                    <input type="radio" name="question answer" id="wrong1"> 
+                    <script>
+                    printW1(v);
+                    </script>
+                    <br>
+                    <input type="radio" name="question answer" id="wrong2"> 
+                    <script>
+                    printW2(v);
+                    </script>
+                    <br>
+                    <input type="radio" name="question answer" id="wrong3">
+                    <script>
+                    printW3(v);
+
+                    </script>
+                    <br>
+                    <button onclick="submitted()"> Submit </button>
+                    <br>
+                </loopy4>
+            </ifright3>
+            <ifright4>
+                <script>
+                    finished();
+                </script>
+            </ifright4>
+
+        
+    <icri>
+    <sta>
+        Reach 1000 to beat the level!
+    <button onclick="startGame(); hideStart();"> Start game </button>
+    </sta>
+    <restart>
+        <br>
+    <button onclick="hideRestart(); restartGame()"> Restart game</button> 
+    </restart>
+    
+    <game> <br>
+    <button onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)">ACCELERATE</button>
+    </game>
+    </icri>    
+</body>
+</html>

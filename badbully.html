@@ -1,0 +1,66 @@
+<!DOCTYPE html, the actual motherfucking game>
+
+<style>
+
+canvas2 {
+    border:1px solid #d3d3d3;
+    background-color: #f1f1f1;
+}
+</style>
+
+<script>
+var allQuestions = [];
+var numTries = 0;
+allQuestions.push(new ques("How many potatoes does it take to grow a potato tree1", "derek", "two", "three", "four"));
+allQuestions.push(new ques("How many potatoes does it take to grow a potato tree2", "sophia", "two", "three", "four"));
+allQuestions.push(new ques("How many potatoes does it take to grow a potato tree3", "maria", "two", "three", "four"));
+allQuestions.push(new ques("How many potatoes does it take to grow a potato tree4", "suvedh", "two", "three", "four"));
+
+function ques(question, rightanswer, wrong1, wrong2, wrong3) {
+    this.question=question;
+    this.rightanswer = rightanswer;
+    this.wrong1 = wrong1;
+    this.wrong2 = wrong2;
+    this.wrong3 = wrong3;
+}
+function getRand(){
+    var i = Math.floor(Math.random()*allQuestions.length());
+    return i;
+}
+function printQues(i){
+    document.write(allQuestions[i].question);
+}
+function printRightAns(i){
+    document.write(allQuestions[i].rightanswer);
+}
+</script>
+
+<html>
+    <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <sta>
+    <button onclick="startGame(); hideStart()"> start actual game! </button>
+    
+    </sta>
+       
+    </head>
+
+    <body>
+
+        <que>
+        <form>
+            <script>
+                printQues(getRand());
+            </script>
+            <input type="radio" name="question answer" value="rightanswer" checked> Male<br>
+            <input type="radio" name="question answer" value="wrong1"> Female<br>
+            <input type="radio" name="question answer" value="wrong2"> Other
+            <input type="radio" name="question answer" value="wrong3"> Other  
+  
+        </form> 
+    </que>
+
+    </body>
+</html>
+

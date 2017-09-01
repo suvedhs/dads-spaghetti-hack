@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script type="text/javascript">
+            var allQuestions = [];
+            var v=0;
+            var question0 = { ques: 'What do you say at the end of a game on the internet?', rightanswer: 'gg well played', wrong1: 'you suck!!', wrong2: 'I am better than everyone', wrong3: 'I hate this game'};
+            var question1 = { ques: 'Which of the following is NOT a good way to handle cyberbullying?', rightanswer: 'Get into a fight with the person in school', wrong1: 'ignore and block them', wrong2: 'tell your parents or a teacher', wrong3: 'save the messages as evidence'};
+            var question2 = { ques: 'Kids who are cyberbullied are more likely to:', rightanswer: 'All of the below', wrong1: 'Get bad grades', wrong2: 'Skip school', wrong3: 'Have health problems'};
+            var question3 = { ques: 'True or false: cyberbullies bully because they are insecure or may have been bullied themselves', rightanswer: 'sometimes', wrong1: 'true', wrong2: 'false', wrong3: 'idk'};
+            var question4 = { ques: 'What challenge does our team want to win?', rightanswer: '#hackHarrassment', wrong1: 'not that', wrong2: 'something random', wrong3: 'the one about shoes'};
+
+            allQuestions.push(question0);
+            allQuestions.push(question1);
+            allQuestions.push(question2);
+            allQuestions.push(question3);
+            allQuestions.push(question4);
+            
+            function printQues(i) {
+               document.write(allQuestions[i].ques);
+            }
+            function printRight(i) {
+                document.write(allQuestions[i].rightanswer);
+            }
+            function printW1(i) {
+                document.write(allQuestions[i].wrong1);
+            }   
+            function printW2(i) {
+                document.write(allQuestions[i].wrong2);
+            }
+            function printW3(i) {
+                document.write(allQuestions[i].wrong3);
+            }
+            function getRand(){
+                var i = Math.floor(Math.random()*allQuestions.length );
+                return i;
+            }
+            function determineRand(){
+                v = getRand();
+            }
+            function submitted() {
+                if(document.getElementById('rightanswer').checked) {
+                    $("loopy").hide();
+                    $("ifright").show();
+                    allQuestions.pop(v);
+                    if(allQuestions.length==0) {
+                        finished();
+                    }
+                }
+                else {
+                    $("loopy").hide();
+                    $("ifwrong").show();
+                }            
+            }
+            $(document).ready(function() {
+                $("ifright").hide();
+                $("ifwrong").hide();
+            });
+            function transition() {
+                
+            }
+            function finished() {
+                
+            }
+        </script>
+    </head>
+
+
+    <body>
+        <loopy>
+            <script type="text/javascript">
+                determineRand();
+            </script>
+            <script>
+                printQues(v);
+            </script>
+            <br>
+            <input type="radio" name="question answer" id="rightanswer"> 
+            <script>
+            printRight(v);
+            </script>
+            <br>
+            <input type="radio" name="question answer" id="wrong1"> 
+            <script>
+            printW1(v);
+            </script>
+            <br>
+            <input type="radio" name="question answer" id="wrong2"> 
+            <script>
+            printW2(v);
+            </script>
+            <br>
+            <input type="radio" name="question answer" id="wrong3">
+            <script>
+            printW3(v);
+
+            </script>
+            <button onclick="submitted()"> Submit </button>
+            <br>
+        </loopy>
+
+            <ifright>
+                <button onclick="transition()"> Congrats! Play game. </button>
+            </ifright>
+            <ifwrong>
+                <button onclick="transition()"> Wrong answer. </button>
+            </ifwrong>   
+        
+    </body>
+</html>
